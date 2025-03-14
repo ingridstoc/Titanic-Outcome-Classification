@@ -2,12 +2,7 @@
 
 ## Description
 
-Setul de date pe care l-am ales conține informații despre persoanele implicate în scufundarea vasului 
-Titanic. În ciuda faptului că s-a întâmplat o tragedie, consider că folosind tehnici de inteligență 
-artificială, putem găsi o corelație între persoanele care au supraviețuit și caracteristici neașteptate cum 
-ar fi clasa la care au cumpărat biletul sau chiar orașul din care s-au îmbarcat pe vas. Aceste corelații, 
-ne pot aduce cu un pas mai aproape de a înțelege motivul pentru care a avut loc acest accident, ce au 
-avut în plus persoanele care au supraviețuit și cum am putea preveni pe viitor o astfel de catastrofa. 
+The dataset I have chosen contains information about the people involved in the sinking of the Titanic. Despite the fact that it was a tragedy, I believe that by using artificial intelligence techniques, we can find a correlation between the survivors and unexpected characteristics such as the class in which they purchased their ticket or even the city from which they boarded the ship. These correlations can bring us one step closer to understanding why this accident occurred, what advantages the survivors had, and how we could prevent such a catastrophe in the future.
 
 ## Dataset
 
@@ -32,45 +27,18 @@ pip3 install scikit-learn
 ## Implementation Details
 - **Libraries Used**: `pandas`, `numpy`, `scikit-learn`, `matplotlib`
 - **Preprocessing Steps**: 
-Feicare tabelă conține 12 coloane cu informații precum: nume, sex, clasa la care a cumpărat biletul, 
-de unde s-a îmbarcat, dar cea mai importantă e coloana care ne spune dacă a supraviețuit sau nu 
-pasagerul. În setul de date folosit, cea mai mare problemă o reprezintă faptul că datele sunt 
-incomplete. Câteva modalități pentru a rezolva această problemă ar fi: 
-    + Să elimin în totalitate coloanele atât din setul de training, cât și din cel de test, dacă mai mult 
-de jumatate din valori sunt nule. 
-    + Să înlocuiesc câmpurile lipsă dintr-o coloană cu o valoare predefinită sau cu valori random. 
-Pentru a putea utiliza un model de Machine Learning a trebuit să convertesc valorile de tip text sau 
-object în valori numerice. Dar, înainte de a realiza acest lucru, am eliminat coloanele pe care nu le-
-am  crezut  relevante  în  procesul  de  clasificare.  Am  eliminat  aceste  coloane  atât  din  setul  de 
-antrenare, cât și din cel de test. Acestea sunt: 'Name', 'PassengerId', 'Ticket' și 'Cabin'. Logica pentru 
-această decizie a fost următoarea pentru fiecare în parte: 
-    +   'Name': consider că numele pe care îl are o persoană nu poate avea un impact real asupra 
-eficienței modelului. 
-    +   'PassengerId': reprezintă numărul intrării în tabel, cum nu sunt prezentate informații despre 
-modul  în  care  au  fost  introduse  persoanele  în  tabelă  am  considerat  că  ordinea  este 
-aleatoare, ceea ce nu o face un feature relevant pentru model. 
-    +   'Ticket': câmpul ticket este o înșiruire aleatoare de coduri alfa-numerice, nu am observat o 
-corelație între codul pe care îl are ticket-ul și clasa sau cabina la care a fost cumpărat biletul. 
-Stochirlea Ingrid Ana Maria – 333AA 
- 
-    +   'Cabin': am eliminat această coloana deoarece în setul de date inițial aproape 3 sferturi din 
-valori sunt nule atât pentru setul de antrenare (687/891), cât și pentru cel de testare 
-(327/418).   
-Am înlocuit pentru fiecare coloană în parte unde erau date lipsă cu valori random predefinite
+Each table contains 12 columns with information such as name, gender, ticket class, embarkation location, but the most important column is the one that indicates whether the passenger survived or not. The biggest issue with the dataset is that the data is incomplete. Some possible ways to address this issue include:
+    + Completely removing columns from both the training and test sets if more than half of the values are missing. 
+    + Replacing missing fields in a column with a predefined value or random values. 
+To be able to use a Machine Learning model, I had to convert text or object-type values into numerical values. However, before doing this, I removed columns that I did not consider relevant for the classification process. I removed these columns from both the training and test sets. These columns are: 'Name', 'PassengerId', 'Ticket', and 'Cabin'. The reasoning behind this decision for each column is as follows:
+    +   'Name': I believe that a person's name does not have a real impact on the model’s efficiency.
+    +   'PassengerId': This represents the entry number in the table, and since there is no information on how people were added to the table, I assumed the order was random, making it an irrelevant feature for the model.
+    +   'Ticket': This field consists of a random sequence of alphanumeric codes, and I did not observe any correlation between the ticket code and the class or cabin where the ticket was purchased.
+    +   'Cabin': I removed this column because, in the initial dataset, nearly three-quarters of the values are missing, both in the training set (687/891) and the test set (327/418). For each column with missing data, I replaced the missing values with predefined random values.
 
 - **Models Used**: KNeighborsClassifier / Random Forest / GaussianNB
 - **Fine-tuning Hyperparameters**: 
-Implementarea din Scikit-learn a celor 3 algoritmi de clasificare are mai mulți hiperparametri care 
-influențează  rezultatele  finale  ale  modelului  pe  datele  de  testare.  De exemplu, pentru  algoritmul 
-KneighborsClassifier, am ales să mă folosesc de parametrii: 'n_neighbors', 'leaf_size', 'weights', 
-'algorithm' pentru a găsi cea mai bună combinație dintre pentru model. 
-Pentru fiecare hiperparametru am setat un număr diferit de valori. Conform codului de mai jos, există 288 de 
-combinații de hiperparametrii. Pentru a găsi setul ideal de parametrii vom folosi tehnica de Random 
-Search. Sigur există cel putin un model care să aibă cea mai mare acuratețe posibilă pe setul de test. 
-În procesul de random search, sunt selectate în mod aleator combinații diferite de parametrii. Cu 
-fiecare alegere pe care o facem, posibilitatea de a găsi acel model cel mai bun crește. Variabila 
-confidence reprezintă gradul de siguranță pe care îl avem că aceea combinație de parametrii cu 
-acuratațe maximă pe care am găsit-o până acum este cea mai bună posibilă. 
+The Scikit-learn implementation of the three classification algorithms includes multiple hyperparameters that influence the final model results on the test data. For example, for the KNeighborsClassifier algorithm, I used the following parameters: 'n_neighbors', 'leaf_size', 'weights', and 'algorithm' to find the best combination for the model. I set a different number of values for each hyperparameter. According to the code below, there are 288 possible hyperparameter combinations. To find the optimal set of parameters, we will use the Random Search technique. There is certainly at least one model that achieves the highest possible accuracy on the test set. In the random search process, different parameter combinations are randomly selected. With each choice we make, the likelihood of finding the best model increases. The confidence variable represents the degree of certainty that the best-performing combination of hyperparameters found so far is indeed the best possible one.
 
 ```
 grid_knn = {
@@ -91,10 +59,4 @@ grid_knn = {
 | Random Forest      |  93% | 93% | 87% | 90% |
 | GaussianNB          | 89% | 80% | 94% | 87% |
 
-În  concluzie,  toate cele 3  modele  sunt  robuste  și  dau  rezultate  bune,  dar  modelul  care  folosește 
-Random Forest are o acuratețe mult mai bună, fiind mai potrivit pentru setul meu de date. Modelul care 
-utilizează KNeighborsClassifier reușește să realizeze o clasificare corectă în doar 65% din cazuri pe 
-datele de testare, iar pe datele de antrenare în 78% din cazuri, ceea ce poate sugera o problemă de 
-underfitting. Algoritmul nu este suficient de complex pentru a învața suficiente informații despre 
-datele de antrenare, dar are o capacitate de generalizare bună. 
-
+In conclusion, all three models are robust and yield good results, but the Random Forest model achieves significantly better accuracy, making it more suitable for my dataset. The model using KNeighborsClassifier correctly classifies only 65% of cases on the test data and 78% on the training data, which may indicate an underfitting problem. The algorithm is not complex enough to learn sufficient information from the training data but has a good generalization capacity.
